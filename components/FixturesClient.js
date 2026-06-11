@@ -5,6 +5,14 @@ import { FIXTURES, GROUP_COLORS } from '../data/fixtures';
 
 const groups = [...new Set(FIXTURES.filter(f => f.group !== '-').map(f => f.group))].sort();
 
+const formatTime = (timeStr) => {
+  const [hourStr, minute] = timeStr.split(':');
+  const hour = parseInt(hourStr, 10);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour % 12 || 12;
+  return { time: `${displayHour}:${minute}`, ampm };
+};
+
 export default function FixturesClient() {
   const [phase, setPhase] = useState('all');
   const [group, setGroup] = useState('all');
@@ -91,8 +99,8 @@ export default function FixturesClient() {
                       return (
                         <div key={i} className={rowClass}>
                           <div className="match-time">
-                            {f.cat}
-                            <span className="ampm">CAT</span>
+                            {formatTime(f.cat).time}
+                            <span className="ampm">{formatTime(f.cat).ampm}</span>
                           </div>
                           <div className="team-home">{f.home}</div>
                           <div className="vs">vs</div>
